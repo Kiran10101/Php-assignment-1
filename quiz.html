@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Quiz App</title>
+ <style>
+  body {
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #eef;
+}
+
+.quiz-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 0 10px #aaa;
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 8px 0;
+  cursor: pointer;
+  background: #eee;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+li:hover {
+  background: #ddd;
+}
+.selected {
+  background-color: #cfc;
+  font-weight: bold;
+}
+ </style>
+</head>
+<body>
+  <div class="quiz-box">
+    <h2 id="question"></h2>
+    <ul id="options"></ul>
+    <button onclick="next()">Next</button>
+    <p id="result"></p>
+  </div>
+  <script>
+   const quiz = [
+  { q: "Which animal is known as the king of the jungle?", o: ["Elephant", "Tiger", "Lion", "Giraffe"], a: 2 },
+  { q: "How many legs does a spider have?", o: ["6", "8", "10", "12"], a: 1 },
+  { q: "Which planet is closest to the Sun?", o: ["Earth", "Venus", "Mercury", "Mars"], a: 2 }
+];
+
+let i = 0, score = 0;
+
+function load() {
+  document.getElementById("question").textContent = quiz[i].q;
+  document.getElementById("options").innerHTML = quiz[i].o.map((opt, idx) =>
+    `<li onclick="check(this, ${idx})">${opt}</li>`).join("");
+}
+
+function check(el, selected) {
+  const correct = quiz[i].a;
+  if (selected === correct) score++;
+  el.classList.add("selected");
+  document.querySelectorAll("li").forEach(li => li.onclick = null);
+}
+
+function next() {
+  i++;
+  if (i < quiz.length) load();
+  else document.getElementById("result").textContent = `Your score: ${score}/${quiz.length}`;
+}
+
+load();
+  </script>
+</body>
+</html>
